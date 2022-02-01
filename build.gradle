@@ -1,11 +1,13 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.4.32'
+    id 'maven-publish'
 }
 
 group 'com.bso'
 version '1.0.0-SNAPSHOT'
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -17,4 +19,12 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
 }
