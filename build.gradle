@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-def projectVersion = '1.1.0'
+def projectVersion = '1.1.1-SNAPSHOT'
 
 group 'com.bso'
 version projectVersion
