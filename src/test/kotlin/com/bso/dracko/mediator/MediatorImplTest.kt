@@ -27,10 +27,12 @@ internal class MediatorImplTest {
     fun testDispatchCommandHandler() {
         var called = false
 
-        val handle = CommandHandler {
-            cmd : DummyCommand ->
-            println(cmd)
-            called = true
+        val handle = object : CommandHandler<DummyCommand> {
+            override fun handle(command: DummyCommand) {
+                println(command)
+                called = true
+            }
+            override fun getType(): Class<DummyCommand> = DummyCommand::class.java
         }
 
         `when`(registry.getCommandHandler(any(DummyCommand::class.java))).thenReturn(handle)
@@ -44,11 +46,14 @@ internal class MediatorImplTest {
     fun testDispatchRequestHandler() {
         var called = false
 
-        val handle = RequestHandler {
-                req : DummyRequest ->
-            println(req)
-            called = true
-            1
+        val handle = object : RequestHandler<DummyRequest, Int> {
+            override fun handle(request: DummyRequest): Int {
+                println(request)
+                called = true
+                return 1
+            }
+
+            override fun getType(): Class<DummyRequest> = DummyRequest::class.java
         }
 
         `when`(registry.getRequestHandler(any(DummyRequest::class.java))).thenReturn(handle)
@@ -62,12 +67,20 @@ internal class MediatorImplTest {
     fun testDispatchEventHandler() {
         var info = 0
 
-        val handle1 = EventHandler<DummyEvent> {
-            info += 1
+        val handle1 = object : EventHandler<DummyEvent> {
+            override fun handle(event: DummyEvent) {
+                info += 1
+            }
+
+            override fun getType(): Class<DummyEvent> = DummyEvent::class.java
         }
 
-        val handle2 = EventHandler<DummyEvent> {
-            info += 1
+        val handle2 = object : EventHandler<DummyEvent> {
+            override fun handle(event: DummyEvent) {
+                info += 1
+            }
+
+            override fun getType(): Class<DummyEvent> = DummyEvent::class.java
         }
 
         `when`(registry.getEventHandler(any(DummyEvent::class.java))).thenReturn(listOf(handle1, handle2))

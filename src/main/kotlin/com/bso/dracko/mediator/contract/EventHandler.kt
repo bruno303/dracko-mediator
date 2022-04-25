@@ -1,5 +1,5 @@
 package com.bso.dracko.mediator.contract
 
-fun interface EventHandler<T : Event> {
-    fun handle(event: Event)
+interface EventHandler<T : Event> : TypeAware<T> {
+    fun handle(event: T)
 }
