@@ -1,5 +1,5 @@
 package com.bso.dracko.mediator.contract
 
-fun interface CommandHandler<T : Command> {
+interface CommandHandler<T : Command> : TypeAware<T> {
     fun handle(command: T)
 }

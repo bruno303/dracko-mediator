@@ -1,5 +1,5 @@
 package com.bso.dracko.mediator.contract
 
-fun interface RequestHandler<T : Request<R>?, R> {
+interface RequestHandler<T : Request<R>, R> : TypeAware<T> {
     fun handle(request: T): R
 }
